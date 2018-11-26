@@ -15,8 +15,7 @@ class RollingHash:
     h = 0
     def add(self, c):
         self.x += c
-        self.h *= 256 
-        self.h += ord(c)
+        self.h = self.h * 256 + ord(c)
         
     def delete(self, c):
         self.x = self.x[1:]
@@ -24,6 +23,20 @@ class RollingHash:
 
     def hash(self):
         return self.h
+
+# test rollinghash
+
+y = 'asdaskjhdsakhasdk'
+length = 5
+ry = RollingHash()
+for i in range(length): ry.add(y[i])
+for i in range(length, len(y)):
+    ry.add(y[i])
+    ry.delete(y[i - length])
+    rtemp = RollingHash()
+    for j in range(length):
+        rtemp.add(y[i - length + j])
+    print(rtemp.hash() == ry.hash())
 
 def karp_rabin(s, t):
     # substring with a more efficient algorithm
